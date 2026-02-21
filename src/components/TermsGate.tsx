@@ -33,7 +33,7 @@ const TermsGate = ({ children }: TermsGateProps) => {
             <Shield className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">Bureaucracy Hacker</h1>
+            <h1 className="text-xl font-bold text-foreground">CompensAI</h1>
             <p className="text-sm text-muted-foreground">Terms &amp; Conditions</p>
           </div>
         </div>
@@ -45,7 +45,7 @@ const TermsGate = ({ children }: TermsGateProps) => {
           </div>
           <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
             <p>
-              <strong className="text-foreground">1. Service Description.</strong> Bureaucracy Hacker
+               <strong className="text-foreground">1. Service Description.</strong> CompensAI
               is an automated claims assistant that scans your inbox for actionable disputes
               (e.g., flight delays, overcharges, damaged parcels) and drafts claim letters on
               your behalf. All claims require your explicit approval before submission.
@@ -63,7 +63,7 @@ const TermsGate = ({ children }: TermsGateProps) => {
               vendors involved in your disputes.
             </p>
             <p>
-              <strong className="text-foreground">4. Fees.</strong> A service fee of up to 25% of
+              <strong className="text-foreground">4. Fees.</strong> A service fee of up to 10% of
               successfully recovered amounts may apply. No fee is charged for unsuccessful
               claims. Fee details are shown on each dispute before approval.
             </p>

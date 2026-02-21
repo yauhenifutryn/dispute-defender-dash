@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Zap } from 'lucide-react';
+import { LayoutDashboard, Zap, Settings2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const AppSidebar = () => {
   const { pathname } = useLocation();
@@ -15,14 +16,25 @@ const AppSidebar = () => {
         </span>
       </div>
 
-      <nav className="flex-1 px-3 py-4">
-        <Link
-          to="/"
-          className="flex items-center gap-3 rounded-lg bg-sidebar-accent px-3 py-2.5 text-sm font-medium text-sidebar-primary"
-        >
-          <LayoutDashboard className="h-4 w-4" />
-          Dashboard
-        </Link>
+      <nav className="flex-1 space-y-1 px-3 py-4">
+        {[
+          { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+          { to: '/automation', label: 'Automation', icon: Settings2 },
+        ].map(({ to, label, icon: Icon }) => (
+          <Link
+            key={to}
+            to={to}
+            className={cn(
+              'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+              pathname === to
+                ? 'bg-sidebar-accent text-sidebar-primary'
+                : 'text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground'
+            )}
+          >
+            <Icon className="h-4 w-4" />
+            {label}
+          </Link>
+        ))}
       </nav>
 
       <div className="border-t border-sidebar-border p-4">

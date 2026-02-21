@@ -9,47 +9,81 @@ export type DisputeStatus =
 
 export type DisputeCategory = 'flight_delay' | 'damaged_parcel' | 'late_delivery' | 'overcharge' | 'cancellation';
 
-export interface AgentRunStep {
+/** Maps directly to Supabase `agent_runs` table */
+export interface AgentRunRow {
+  agent_run_id: string;
+  dispute_id: string | null;
+  agent_name: string;
   step_name: string;
-  status: 'completed' | 'running' | 'failed' | 'pending';
-  started_at?: string;
-  completed_at?: string;
-  output_json?: Record<string, unknown>;
-}
-
-export interface AgentRun {
-  run_id: string;
-  started_at: string;
-  completed_at?: string;
-  steps: AgentRunStep[];
-}
-
-export interface DisputeMessage {
-  id: string;
-  direction: 'inbound' | 'outbound';
-  channel: string;
-  subject: string;
-  body_text: string;
+  status: string;
+  input_json: Record<string, unknown>;
+  output_json: Record<string, unknown>;
+  error_text: string | null;
   created_at: string;
 }
 
-export interface Dispute {
-  id: string;
-  dispute_id?: string;
-  date: string;
+/** Maps directly to Supabase `messages` table */
+export interface MessageRow {
+  message_id: string;
+  user_id: string | null;
+  dispute_id: string | null;
+  source: string;
+  external_message_id: string;
+  thread_id: string | null;
+  direction: string;
+  subject: string | null;
+  body_text: string | null;
+  payload_json: Record<string, unknown>;
+  received_at: string | null;
+  created_at: string;
+}
+
+/** Maps directly to Supabase `disputes` table */
+export interface DisputeRow {
+  dispute_id: string;
+  user_id: string | null;
+  category: string;
+  status: string;
+  vendor_name: string | null;
+  policy_region: string;
+  draft_payload_json: Record<string, unknown> | null;
+  latest_reason: string | null;
+  created_at: string;
   updated_at: string;
+}
+
+/**
+ * Enriched dispute used by the UI.
+ * Keeps backward-compat fields for components that still reference old names.
+ */
+export interface Dispute {
+  // Primary key from Supabase
+  dispute_id: string;
+  /** @deprecated alias for dispute_id — used by legacy components */
+  id: string;
+
+  // Core fields from DB
+  user_id?: string | null;
+  category: DisputeCategory | string;
+  status: DisputeStatus | string;
   vendor_name: string;
-  category: DisputeCategory;
-  estimated_value: number;
-  status: DisputeStatus;
+  policy_region?: string;
+  draft_payload_json?: Record<string, unknown> | null;
+  latest_reason?: string | null;
+  created_at: string;
+  updated_at: string;
+
+  // Derived / UI-only convenience (populated from cases or mock)
+  estimated_value?: number;
   flight_number?: string;
   booking_ref?: string;
-  email_subject: string;
-  email_body: string;
+  email_subject?: string;
+  email_body?: string;
   draft_claim?: string;
-  draft_payload?: Record<string, unknown>;
-  messages?: DisputeMessage[];
-  agent_runs?: AgentRun[];
+
+  // Joined data
+  messages?: MessageRow[];
+  agent_runs?: AgentRunRow[];
 }
 
 export interface DisputeEconomics {

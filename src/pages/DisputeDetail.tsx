@@ -7,7 +7,7 @@ import AgentTimeline from '@/components/AgentTimeline';
 import HITLActionBlock from '@/components/HITLActionBlock';
 import WebhookSimulator from '@/components/WebhookSimulator';
 import DraftPayloadViewer from '@/components/DraftPayloadViewer';
-import { Dispute, DisputeEconomics } from '@/types/dispute';
+import { Dispute, DisputeEconomics, DisputeStatus } from '@/types/dispute';
 import { MOCK_DISPUTES } from '@/data/mockDisputes';
 import { api } from '@/lib/api';
 import { useState, useEffect, useCallback } from 'react';
@@ -38,7 +38,7 @@ const DisputeDetail = () => {
       setDispute(data);
     } catch {
       // Fallback to mock
-      const found = MOCK_DISPUTES.find(d => d.id === id);
+      const found = MOCK_DISPUTES.find(d => d.dispute_id === id || d.id === id);
       if (found) {
         setDispute(found);
       } else {
@@ -86,17 +86,13 @@ const DisputeDetail = () => {
   const extractEconomics = (): DisputeEconomics | null => {
     if (!dispute?.agent_runs?.length) return null;
     for (const run of dispute.agent_runs) {
-      for (const step of run.steps) {
-        if (step.step_name === 'billing_stub' && step.output_json) {
-          const o = step.output_json;
-          if (typeof o.compute_cost_usd === 'number' && typeof o.value_generated_usd === 'number') {
-            return {
-              compute_cost_usd: o.compute_cost_usd,
-              value_generated_usd: o.value_generated_usd,
-              margin_pct: typeof o.margin_pct === 'number' ? o.margin_pct : 0,
-            };
-          }
-        }
+      const o = run.output_json;
+      if (o && typeof o.compute_cost_usd === 'number' && typeof o.value_generated_usd === 'number') {
+        return {
+          compute_cost_usd: o.compute_cost_usd as number,
+          value_generated_usd: o.value_generated_usd as number,
+          margin_pct: typeof o.margin_pct === 'number' ? (o.margin_pct as number) : 0,
+        };
       }
     }
     return null;
@@ -131,10 +127,10 @@ const DisputeDetail = () => {
         </Button>
         <div className="flex-1">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold text-foreground">{dispute.vendor_name}</h1>
-            <StatusBadge status={dispute.status} />
+            <h1 className="text-xl font-bold text-foreground">{dispute.vendor_name ?? 'Unknown Vendor'}</h1>
+            <StatusBadge status={(dispute.status ?? 'SCANNED_MATCH') as DisputeStatus} />
           </div>
-          <p className="text-sm text-muted-foreground">{CATEGORY_LABELS[dispute.category]} · {dispute.date}</p>
+          <p className="text-sm text-muted-foreground">{CATEGORY_LABELS[dispute.category] ?? dispute.category ?? '—'} · {dispute.created_at ? new Date(dispute.created_at).toLocaleDateString() : '—'}</p>
         </div>
       </div>
 
@@ -148,7 +144,7 @@ const DisputeDetail = () => {
               <Mail className="mt-0.5 h-4 w-4 text-muted-foreground" />
               <div>
                 <p className="text-xs text-muted-foreground">Subject</p>
-                <p className="text-sm font-medium text-foreground">{dispute.email_subject}</p>
+                <p className="text-sm font-medium text-foreground">{dispute.email_subject ?? '—'}</p>
               </div>
             </div>
             {dispute.flight_number && (
@@ -173,12 +169,12 @@ const DisputeDetail = () => {
               <Calendar className="mt-0.5 h-4 w-4 text-muted-foreground" />
               <div>
                 <p className="text-xs text-muted-foreground">Date</p>
-                <p className="text-sm font-medium text-foreground">{dispute.date}</p>
+                <p className="text-sm font-medium text-foreground">{dispute.created_at ? new Date(dispute.created_at).toLocaleDateString() : '—'}</p>
               </div>
             </div>
             <div className="border-t border-border pt-3">
               <p className="text-xs text-muted-foreground">Email excerpt</p>
-              <p className="mt-1 text-xs leading-relaxed text-foreground/80">{dispute.email_body}</p>
+              <p className="mt-1 text-xs leading-relaxed text-foreground/80">{dispute.email_body ?? '—'}</p>
             </div>
           </div>
 
@@ -186,16 +182,16 @@ const DisputeDetail = () => {
           {dispute.messages && dispute.messages.length > 0 && (
             <div className="space-y-2">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Messages</h3>
-              {dispute.messages.map(msg => (
-                <div key={msg.id} className="rounded-lg border border-border bg-card p-3">
+              {dispute.messages.map((msg, idx) => (
+                <div key={msg.message_id ?? idx} className="rounded-lg border border-border bg-card p-3">
                   <div className="flex items-center gap-2 mb-1">
                     <span className={`text-xs font-medium ${msg.direction === 'outbound' ? 'text-primary' : 'text-muted-foreground'}`}>
                       {msg.direction === 'outbound' ? '→ Sent' : '← Received'}
                     </span>
-                    <span className="text-xs text-muted-foreground">{msg.channel}</span>
+                    <span className="text-xs text-muted-foreground">{msg.source ?? '—'}</span>
                   </div>
-                  <p className="text-xs font-medium text-foreground">{msg.subject}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{msg.body_text}</p>
+                  <p className="text-xs font-medium text-foreground">{msg.subject ?? '—'}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{msg.body_text ?? ''}</p>
                 </div>
               ))}
             </div>
@@ -204,9 +200,9 @@ const DisputeDetail = () => {
 
         {/* Center: Timeline + HITL + Webhook Sim */}
         <div className="space-y-6">
-          <AgentTimeline status={dispute.status} />
+          <AgentTimeline status={(dispute.status ?? 'SCANNED_MATCH') as DisputeStatus} />
           <HITLActionBlock dispute={dispute} onDecision={handleDecision} submitting={submitting} />
-          <DraftPayloadViewer payload={dispute.draft_payload} />
+          <DraftPayloadViewer payload={dispute.draft_payload_json ?? undefined} />
           <WebhookSimulator dispute={dispute} onResult={handleWebhookResult} />
         </div>
 

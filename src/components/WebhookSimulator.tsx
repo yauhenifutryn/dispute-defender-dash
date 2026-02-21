@@ -42,10 +42,10 @@ const WebhookSimulator = ({ dispute, onResult }: WebhookSimulatorProps) => {
   const simulate = async (result: 'accepted' | 'rejected' | 'needs_info') => {
     setSending(result);
     const payload: WebhookPayload = {
-      dispute_id: dispute.id,
-      thread_id: `thread-${dispute.id}`,
+      dispute_id: dispute.dispute_id ?? dispute.id,
+      thread_id: `thread-${dispute.dispute_id ?? dispute.id}`,
       result,
-      subject: `Re: Claim ${dispute.id}`,
+      subject: `Re: Claim ${dispute.dispute_id ?? dispute.id}`,
       body_text: result === 'accepted'
         ? 'Your claim has been approved. Refund will be processed within 5-7 business days.'
         : result === 'rejected'

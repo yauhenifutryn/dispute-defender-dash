@@ -9,7 +9,7 @@ interface TimelineStep {
   failed?: boolean;
 }
 
-function getTimelineSteps(status: DisputeStatus): TimelineStep[] {
+function getTimelineSteps(status: DisputeStatus | string): TimelineStep[] {
   const steps: TimelineStep[] = [
     { label: 'Email Scanned', completed: false, active: false },
     { label: 'Draft Generated', completed: false, active: false },
@@ -59,7 +59,7 @@ function getTimelineSteps(status: DisputeStatus): TimelineStep[] {
 }
 
 interface AgentTimelineProps {
-  status: DisputeStatus;
+  status: DisputeStatus | string;
 }
 
 const AgentTimeline = ({ status }: AgentTimelineProps) => {

@@ -12,11 +12,11 @@ const STATUS_CONFIG: Record<DisputeStatus, { label: string; className: string }>
 };
 
 interface StatusBadgeProps {
-  status: DisputeStatus;
+  status: DisputeStatus | string;
 }
 
 const StatusBadge = ({ status }: StatusBadgeProps) => {
-  const config = STATUS_CONFIG[status];
+  const config = STATUS_CONFIG[status as DisputeStatus] ?? { label: status ?? 'Unknown', className: 'bg-muted text-muted-foreground' };
   return (
     <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold', config.className)}>
       {config.label}

@@ -105,7 +105,7 @@ const Dashboard = () => {
   };
 
   const filteredDisputes = activeFilters.size > 0
-    ? disputes.filter(d => activeFilters.has(d.status))
+    ? disputes.filter(d => activeFilters.has(d.status as DisputeStatus))
     : disputes;
 
   const formatDate = (dateStr: string) => {
@@ -228,15 +228,15 @@ const Dashboard = () => {
                 filteredDisputes.map(dispute => (
                   <TableRow
                     key={dispute.id}
-                    onClick={() => navigate(`/dispute/${dispute.id}`)}
+                    onClick={() => navigate(`/dispute/${dispute.dispute_id ?? dispute.id}`)}
                     className="cursor-pointer"
                   >
-                    <TableCell className="font-mono text-xs text-muted-foreground">{dispute.id}</TableCell>
-                    <TableCell className="font-medium text-foreground">{dispute.vendor_name}</TableCell>
-                    <TableCell className="text-sm text-muted-foreground">{CATEGORY_LABELS[dispute.category] || dispute.category}</TableCell>
-                    <TableCell className="text-right font-mono font-semibold text-foreground">${dispute.estimated_value}</TableCell>
-                    <TableCell><StatusBadge status={dispute.status} /></TableCell>
-                    <TableCell className="text-xs text-muted-foreground">{formatDate(dispute.updated_at)}</TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">{dispute.dispute_id ?? dispute.id}</TableCell>
+                    <TableCell className="font-medium text-foreground">{dispute.vendor_name ?? 'Unknown'}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{CATEGORY_LABELS[dispute.category] ?? dispute.category ?? '—'}</TableCell>
+                    <TableCell className="text-right font-mono font-semibold text-foreground">${dispute.estimated_value ?? 0}</TableCell>
+                    <TableCell><StatusBadge status={(dispute.status ?? 'SCANNED_MATCH') as DisputeStatus} /></TableCell>
+                    <TableCell className="text-xs text-muted-foreground">{formatDate(dispute.updated_at ?? dispute.created_at)}</TableCell>
                   </TableRow>
                 ))
               )}

@@ -1,0 +1,123 @@
+import { Dispute, DisputeCategory } from '@/types/dispute';
+
+export const MOCK_DISPUTES: Dispute[] = [
+  {
+    id: 'disp-001',
+    date: '2026-02-18',
+    vendorName: 'Ryanair',
+    category: 'flight_delay',
+    estimatedValue: 250,
+    status: 'AWAITING_USER_APPROVAL',
+    flightNumber: 'FR4821',
+    bookingRef: 'RYN-8834X',
+    emailSubject: 'Your Ryanair flight FR4821 was delayed 4h 23m',
+    emailBody: 'Dear passenger, we regret to inform you that flight FR4821 from Dublin to Barcelona on 15 Feb 2026 experienced a delay of 4 hours and 23 minutes due to operational reasons.',
+    draftClaim: 'Dear Ryanair Customer Relations,\n\nI am writing to claim compensation under EU Regulation 261/2004 for flight FR4821 (Dublin → Barcelona) on 15 February 2026, which was delayed by 4 hours and 23 minutes.\n\nUnder the regulation, I am entitled to €250 compensation for this delay on a flight of this distance.\n\nBooking reference: RYN-8834X\n\nPlease process this claim within 14 days.\n\nRegards',
+    computeCostUsd: 0.15,
+    valueGeneratedUsd: 250,
+    marginPct: 99.9,
+  },
+  {
+    id: 'disp-002',
+    date: '2026-02-16',
+    vendorName: 'DHL',
+    category: 'damaged_parcel',
+    estimatedValue: 85,
+    status: 'WAITING_VENDOR_RESPONSE',
+    bookingRef: 'DHL-99281',
+    emailSubject: 'DHL Delivery Confirmation - Package damaged on arrival',
+    emailBody: 'Your package (tracking: DHL-99281) was delivered on 14 Feb 2026. The recipient has reported damage to the contents.',
+    draftClaim: 'Dear DHL Claims Department,\n\nI am filing a damage claim for parcel DHL-99281, delivered on 14 February 2026. The contents were visibly damaged upon receipt.\n\nEstimated value of damaged goods: $85.00\n\nPhotographic evidence is attached.\n\nPlease advise on next steps.',
+    computeCostUsd: 0.12,
+    valueGeneratedUsd: 85,
+    marginPct: 99.9,
+  },
+  {
+    id: 'disp-003',
+    date: '2026-02-14',
+    vendorName: 'Amazon',
+    category: 'late_delivery',
+    estimatedValue: 30,
+    status: 'RESOLVED_SUCCESS',
+    bookingRef: 'AMZ-114-2938',
+    emailSubject: 'Your Amazon Prime delivery was late',
+    emailBody: 'Your guaranteed delivery for order AMZ-114-2938 was missed. The package arrived 3 days late.',
+    computeCostUsd: 0.08,
+    valueGeneratedUsd: 30,
+    marginPct: 99.7,
+  },
+  {
+    id: 'disp-004',
+    date: '2026-02-12',
+    vendorName: 'EasyJet',
+    category: 'cancellation',
+    estimatedValue: 180,
+    status: 'RESOLVED_REJECTED',
+    flightNumber: 'U2-4417',
+    bookingRef: 'EZJ-77120',
+    emailSubject: 'EasyJet flight U2-4417 cancellation notice',
+    emailBody: 'We regret to inform you that flight U2-4417 from London Gatwick to Nice on 10 Feb 2026 has been cancelled.',
+    computeCostUsd: 0.18,
+    valueGeneratedUsd: 0,
+    marginPct: 0,
+  },
+  {
+    id: 'disp-005',
+    date: '2026-02-10',
+    vendorName: 'FedEx',
+    category: 'damaged_parcel',
+    estimatedValue: 120,
+    status: 'DISCARDED_BY_USER',
+    bookingRef: 'FDX-55102',
+    emailSubject: 'FedEx shipment FDX-55102 damage report',
+    emailBody: 'A damage report has been filed for shipment FDX-55102.',
+    computeCostUsd: 0.10,
+    valueGeneratedUsd: 0,
+    marginPct: 0,
+  },
+  {
+    id: 'disp-006',
+    date: '2026-02-08',
+    vendorName: 'Lufthansa',
+    category: 'flight_delay',
+    estimatedValue: 400,
+    status: 'FAILED',
+    flightNumber: 'LH-1823',
+    bookingRef: 'LH-MUC-9912',
+    emailSubject: 'Lufthansa flight LH-1823 delay compensation denied',
+    emailBody: 'Your compensation claim for flight LH-1823 has been reviewed. Unfortunately, the delay was caused by extraordinary circumstances beyond our control.',
+    computeCostUsd: 0.22,
+    valueGeneratedUsd: 0,
+    marginPct: 0,
+  },
+];
+
+const VENDOR_POOL = [
+  { name: 'Ryanair', categories: ['flight_delay', 'cancellation'] as DisputeCategory[] },
+  { name: 'DHL', categories: ['damaged_parcel', 'late_delivery'] as DisputeCategory[] },
+  { name: 'Amazon', categories: ['late_delivery', 'overcharge'] as DisputeCategory[] },
+  { name: 'EasyJet', categories: ['flight_delay', 'cancellation'] as DisputeCategory[] },
+  { name: 'FedEx', categories: ['damaged_parcel', 'late_delivery'] as DisputeCategory[] },
+  { name: 'Hermes', categories: ['damaged_parcel', 'late_delivery'] as DisputeCategory[] },
+];
+
+export function generateMockDispute(): Dispute {
+  const vendor = VENDOR_POOL[Math.floor(Math.random() * VENDOR_POOL.length)];
+  const category = vendor.categories[Math.floor(Math.random() * vendor.categories.length)];
+  const estimatedValue = Math.floor(Math.random() * 220) + 30;
+  const id = `disp-${Date.now().toString(36)}`;
+
+  return {
+    id,
+    date: new Date().toISOString().split('T')[0],
+    vendorName: vendor.name,
+    category,
+    estimatedValue,
+    status: 'SCANNED_MATCH',
+    emailSubject: `New ${category.replace('_', ' ')} claim detected — ${vendor.name}`,
+    emailBody: `An automated scan of your inbox detected a potential ${category.replace('_', ' ')} dispute with ${vendor.name}. Estimated recoverable value: $${estimatedValue}.`,
+    computeCostUsd: 0.15,
+    valueGeneratedUsd: estimatedValue,
+    marginPct: 99.8,
+  };
+}

@@ -9,26 +9,76 @@ export type DisputeStatus =
 
 export type DisputeCategory = 'flight_delay' | 'damaged_parcel' | 'late_delivery' | 'overcharge' | 'cancellation';
 
+export interface AgentRunStep {
+  step_name: string;
+  status: 'completed' | 'running' | 'failed' | 'pending';
+  started_at?: string;
+  completed_at?: string;
+  output_json?: Record<string, unknown>;
+}
+
+export interface AgentRun {
+  run_id: string;
+  started_at: string;
+  completed_at?: string;
+  steps: AgentRunStep[];
+}
+
+export interface DisputeMessage {
+  id: string;
+  direction: 'inbound' | 'outbound';
+  channel: string;
+  subject: string;
+  body_text: string;
+  created_at: string;
+}
+
 export interface Dispute {
   id: string;
+  dispute_id?: string;
   date: string;
-  vendorName: string;
+  updated_at: string;
+  vendor_name: string;
   category: DisputeCategory;
-  estimatedValue: number;
+  estimated_value: number;
   status: DisputeStatus;
-  flightNumber?: string;
-  bookingRef?: string;
-  emailSubject: string;
-  emailBody: string;
-  draftClaim?: string;
-  computeCostUsd: number;
-  valueGeneratedUsd: number;
-  marginPct: number;
+  flight_number?: string;
+  booking_ref?: string;
+  email_subject: string;
+  email_body: string;
+  draft_claim?: string;
+  draft_payload?: Record<string, unknown>;
+  messages?: DisputeMessage[];
+  agent_runs?: AgentRun[];
 }
 
 export interface DisputeEconomics {
   compute_cost_usd: number;
   value_generated_usd: number;
   margin_pct: number;
-  fee_usd: number;
+}
+
+export interface ApprovePayload {
+  decision: 'APPROVE' | 'REJECT';
+  channel?: string;
+  note?: string;
+}
+
+export interface WebhookPayload {
+  dispute_id: string;
+  thread_id: string;
+  result: 'accepted' | 'rejected' | 'needs_info';
+  subject: string;
+  body_text: string;
+  source: string;
+}
+
+export interface ScanResponse {
+  status: string;
+  disputes_found?: number;
+}
+
+export interface ApiError {
+  message: string;
+  status?: number;
 }

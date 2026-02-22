@@ -1,5 +1,4 @@
 import AppSidebar from '@/components/AppSidebar';
-import VoiceWidget from '@/components/VoiceWidget';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -14,7 +13,6 @@ const AppLayout = ({ children }: AppLayoutProps) => {
           {children}
         </div>
       </main>
-      <VoiceWidget />
     </div>
   );
 };

@@ -221,12 +221,9 @@ const TechStackSection = () => {
                           transition={{ duration: 0.35 }}
                           className="overflow-hidden"
                         >
-                          <div
-                            className="mt-3 rounded-lg p-3 text-xs leading-relaxed"
-                            style={{ backgroundColor: step.color + '0D', color: step.color }}
-                          >
+                          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
                             {step.detail}
-                          </div>
+                          </p>
                           {/* Status pulse */}
                           <motion.div
                             initial={{ opacity: 0, x: -10 }}

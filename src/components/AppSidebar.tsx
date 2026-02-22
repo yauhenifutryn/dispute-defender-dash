@@ -12,7 +12,7 @@ const AppSidebar = () => {
           <Zap className="h-4 w-4 text-sidebar-primary-foreground" />
         </div>
         <span className="text-sm font-bold tracking-tight text-sidebar-primary-foreground">
-          ClearClaim
+          CompensAI
         </span>
       </div>
 
@@ -37,7 +37,7 @@ const AppSidebar = () => {
       </nav>
 
       <div className="border-t border-sidebar-border p-4">
-        <p className="text-xs text-sidebar-foreground/50">ClearClaim · Capital Recovery</p>
+        <p className="text-xs text-sidebar-foreground/50">CompensAI · Inbox-to-Claim</p>
       </div>
     </aside>
   );

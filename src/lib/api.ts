@@ -52,6 +52,15 @@ function rowToDispute(row: DisputeRow, messages?: MessageRow[], agentRuns?: Agen
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function caseRowToDispute(row: any): Dispute {
+  // Extract AI reasoning from decision_json.eligibility.reasons
+  let aiReasons: string[] | undefined;
+  try {
+    const dj = row.decision_json;
+    if (dj?.eligibility?.reasons && Array.isArray(dj.eligibility.reasons)) {
+      aiReasons = dj.eligibility.reasons;
+    }
+  } catch { /* ignore */ }
+
   return {
     dispute_id: row.id,
     id: row.id,
@@ -70,6 +79,7 @@ function caseRowToDispute(row: any): Dispute {
     email_subject: row.email_subject ?? undefined,
     email_body: row.email_body ?? undefined,
     draft_claim: row.draft_email_body ?? undefined,
+    ai_reasons: aiReasons,
     messages: [],
     agent_runs: [],
   };

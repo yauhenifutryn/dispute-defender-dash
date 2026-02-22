@@ -323,6 +323,35 @@ export type Database = {
           },
         ]
       }
+      terms_cond: {
+        Row: {
+          confirmation_sent: boolean | null
+          terms_cond: boolean | null
+          user_email: string
+          user_id: string
+        }
+        Insert: {
+          confirmation_sent?: boolean | null
+          terms_cond?: boolean | null
+          user_email: string
+          user_id?: string
+        }
+        Update: {
+          confirmation_sent?: boolean | null
+          terms_cond?: boolean | null
+          user_email?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_terms_user"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string

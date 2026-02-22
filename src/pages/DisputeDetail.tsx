@@ -5,7 +5,7 @@ import StatusBadge from '@/components/StatusBadge';
 import EconomicsWidget from '@/components/EconomicsWidget';
 import AgentTimeline from '@/components/AgentTimeline';
 import HITLActionBlock from '@/components/HITLActionBlock';
-import DraftPayloadViewer from '@/components/DraftPayloadViewer';
+
 import { Dispute, DisputeEconomics, DisputeStatus } from '@/types/dispute';
 import { MOCK_DISPUTES } from '@/data/mockDisputes';
 import { api } from '@/lib/api';
@@ -164,7 +164,7 @@ const DisputeDetail = () => {
             )}
           </div>
 
-          <DraftPayloadViewer payload={dispute.draft_payload_json ?? undefined} />
+          
 
           {economics && <EconomicsWidget economics={economics} />}
         </div>

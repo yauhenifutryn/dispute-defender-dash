@@ -319,32 +319,109 @@ const Landing = () => {
       {/* Pricing */}
       <section className="py-24 lg:py-32">
         <div className="mx-auto max-w-3xl px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.6 }}>
+            transition={{ duration: 0.6 }}
+            className="text-3xl font-bold tracking-tight sm:text-4xl"
+          >
+            Zero Risk. Pure Performance.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mx-auto mt-4 max-w-xl text-base text-muted-foreground"
+          >
+            No subscriptions. No hidden fees. We take a success fee only when capital is
+            recovered back to you.
+          </motion.p>
 
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Zero Risk. Pure Performance.
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground">
-              No subscriptions. No hidden fees. We take a success fee only when capital is
-              recovered back to you.
-            </p>
-
-            <div className="mx-auto mt-12 max-w-sm rounded-2xl border border-border bg-card p-10 shadow-lg shadow-primary/5">
+          {/* Animated pricing card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mx-auto mt-12 max-w-sm"
+          >
+            <motion.div
+              whileInView={{
+                boxShadow: [
+                  '0 0 0px hsl(20,90%,48%)',
+                  '0 0 30px hsl(20,90%,48%)',
+                  '0 0 0px hsl(20,90%,48%)',
+                ],
+              }}
+              viewport={{ once: true }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+              className="rounded-2xl border border-border bg-card p-10 shadow-lg"
+            >
               <div className="flex items-center justify-center gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                <motion.div
+                  initial={{ rotate: -15, scale: 0 }}
+                  whileInView={{ rotate: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.4 }}
+                  className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10"
+                >
                   <Shield className="h-8 w-8 text-primary" />
-                </div>
+                </motion.div>
                 <div className="text-left">
-                  <p className="text-5xl font-extrabold tracking-tight text-primary">10%</p>
-                  <p className="text-sm text-muted-foreground">Success fee only</p>
+                  <motion.p
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                    className="text-5xl font-extrabold tracking-tight text-primary"
+                  >
+                    10%
+                  </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.7 }}
+                    className="text-sm text-muted-foreground"
+                  >
+                    Success fee only
+                  </motion.p>
                 </div>
               </div>
-            </div>
 
+              {/* Comparison bullets */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.8 }}
+                className="mt-6 space-y-2 text-left"
+              >
+                {['No upfront cost', 'No monthly subscription', 'You win or you pay nothing'].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.9 + i * 0.12 }}
+                    className="flex items-center gap-2"
+                  >
+                    <CheckCircle2 className="h-4 w-4 text-[hsl(152,55%,50%)]" />
+                    <span className="text-sm text-muted-foreground">{item}</span>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 1.2 }}
+          >
             <Link to="/dashboard" className="mt-8 inline-block">
               <Button variant="outline" size="lg" className="gap-2">
                 View Live Demo

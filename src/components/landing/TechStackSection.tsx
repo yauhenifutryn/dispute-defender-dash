@@ -44,7 +44,7 @@ const TechStackSection = () => {
     }
 
     if (activeIdx < techSteps.length - 1) {
-      const t = setTimeout(() => setActiveIdx((i) => i + 1), 1800);
+      const t = setTimeout(() => setActiveIdx((i) => i + 1), 3200);
       return () => clearTimeout(t);
     }
 

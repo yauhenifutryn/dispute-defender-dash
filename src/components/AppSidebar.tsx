@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Zap, Settings2 } from 'lucide-react';
+import { LayoutDashboard, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const AppSidebar = () => {
@@ -19,7 +19,6 @@ const AppSidebar = () => {
       <nav className="flex-1 space-y-1 px-3 py-4">
         {[
           { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-          { to: '/automation', label: 'Automation', icon: Settings2 },
         ].map(({ to, label, icon: Icon }) => (
           <Link
             key={to}

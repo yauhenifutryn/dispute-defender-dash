@@ -1,9 +1,11 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, Mail, Scale, Bot, Shield, Zap } from 'lucide-react';
 import heroImage from '@/assets/hero-illustration.png';
+import AgentFlowVisualization from '@/components/AgentFlowVisualization';
+import { useState } from 'react';
 
 const AnimatedSection = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => {
   const ref = useRef(null);
@@ -18,6 +20,88 @@ const AnimatedSection = ({ children, className = '' }: { children: React.ReactNo
     >
       {children}
     </motion.section>
+  );
+};
+const steps = [
+  {
+    icon: Mail,
+    step: '1',
+    title: 'Secure Monitoring',
+    desc: 'Our agents connect securely to your inbox, scanning only for transactional signals like flight cancellations or delivery failures.',
+  },
+  {
+    icon: Scale,
+    step: '2',
+    title: 'Legal Triage',
+    desc: 'We cross-reference your situation against international regulations (like EU261) to determine legal eligibility instantly.',
+  },
+  {
+    icon: Bot,
+    step: '3',
+    title: 'Autonomous Filing',
+    desc: 'Our infrastructure drafts legally binding claims and navigates the vendor\'s bureaucracy on your behalf.',
+  },
+];
+
+const SolutionSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    setScrollProgress(v);
+  });
+
+  return (
+    <section ref={containerRef} className="relative min-h-[200vh]">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="py-16 text-center lg:py-24">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            The Autonomous Advantage.
+          </h2>
+        </div>
+
+        <div className="lg:grid lg:grid-cols-2 lg:gap-16">
+          {/* Left: text steps */}
+          <div className="space-y-[33vh] pb-[33vh]">
+            {steps.map(({ icon: Icon, step, title, desc }, i) => {
+              const isActive =
+                scrollProgress >= i * 0.33 && scrollProgress < (i + 1) * 0.33 + 0.01;
+              return (
+                <div
+                  key={step}
+                  className={`rounded-2xl border p-8 transition-all duration-500 ${
+                    isActive
+                      ? 'border-primary/40 bg-card shadow-lg shadow-primary/5'
+                      : 'border-border bg-card/50'
+                  }`}
+                >
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                    <Icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">
+                    Step {step}
+                  </p>
+                  <h3 className="mb-3 text-xl font-bold text-foreground">{title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Right: sticky visualization */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24 pt-4">
+              <AgentFlowVisualization scrollProgress={scrollProgress} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -105,50 +189,8 @@ const Landing = () => {
         />
       </AnimatedSection>
 
-      {/* Section C: How It Works */}
-      <AnimatedSection className="py-24 lg:py-32">
-        <div className="mx-auto max-w-6xl px-6">
-          <h2 className="mb-16 text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            The Autonomous Advantage.
-          </h2>
-          <div className="grid gap-10 md:grid-cols-3">
-            {[
-              {
-                icon: Mail,
-                step: '1',
-                title: 'Secure Monitoring',
-                desc: 'Our agents connect securely to your inbox, scanning only for transactional signals like flight cancellations or delivery failures.',
-              },
-              {
-                icon: Scale,
-                step: '2',
-                title: 'Legal Triage',
-                desc: 'We cross-reference your situation against international regulations (like EU261) to determine legal eligibility instantly.',
-              },
-              {
-                icon: Bot,
-                step: '3',
-                title: 'Autonomous Filing',
-                desc: 'Our infrastructure drafts legally binding claims and navigates the vendor\'s bureaucracy on your behalf.',
-              },
-            ].map(({ icon: Icon, step, title, desc }) => (
-              <div
-                key={step}
-                className="group rounded-2xl border border-border bg-card p-8 transition-colors hover:border-primary/30"
-              >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                  <Icon className="h-6 w-6 text-primary" />
-                </div>
-                <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">
-                  Step {step}
-                </p>
-                <h3 className="mb-3 text-xl font-bold text-foreground">{title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Section C: How It Works — Scroll-linked */}
+      <SolutionSection />
 
       {/* Section D: Pricing */}
       <AnimatedSection className="py-24 lg:py-32">

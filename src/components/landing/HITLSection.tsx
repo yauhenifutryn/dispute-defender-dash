@@ -91,10 +91,8 @@ const HITLSection = () => {
           <div className="absolute left-0 right-0 top-7 hidden h-[2px] bg-border sm:block">
             <motion.div
               className="h-full rounded-full bg-primary"
-              initial={{ width: '0%' }}
-              whileInView={{ width: '100%' }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 1.2, ease: 'easeOut' }}
+              animate={{ width: `${(completedStep / 4) * 100}%` }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
             />
           </div>
 

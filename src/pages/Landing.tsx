@@ -1,10 +1,7 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   motion,
-  useScroll,
-  useTransform,
-  useMotionValueEvent,
   AnimatePresence,
 } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -144,95 +141,31 @@ const HeroMockWindow = () => {
 };
 
 /* ──────────────────────────────────────────────
-   Pipeline Visualization (Sticky Left)
-   ────────────────────────────────────────────── */
-const pipelineSteps = [
-  { icon: Mail, label: 'Monitor' },
-  { icon: Scale, label: 'Triage' },
-  { icon: Bot, label: 'File' },
-];
-
-const PipelineNode = ({
-  icon: Icon,
-  label,
-  active,
-}: {
-  icon: typeof Mail;
-  label: string;
-  active: boolean;
-}) => (
-  <div className="flex items-center gap-4">
-    <motion.div
-      animate={{
-        boxShadow: active
-          ? '0 0 24px hsl(20, 90%, 48%), 0 0 48px hsl(20, 90%, 48%)'
-          : '0 0 0px transparent',
-        borderColor: active ? 'hsl(20, 90%, 48%)' : 'hsl(0, 0%, 85%)',
-        backgroundColor: active ? 'hsl(20, 90%, 48%)' : 'hsl(0, 0%, 97%)',
-      }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="relative flex h-14 w-14 items-center justify-center rounded-2xl border-2"
-    >
-      <motion.div
-        animate={{ scale: active ? 1.15 : 1 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Icon
-          className="h-6 w-6"
-          style={{ color: active ? 'white' : 'hsl(0, 0%, 45%)' }}
-        />
-      </motion.div>
-    </motion.div>
-    <motion.span
-      animate={{
-        color: active ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 55%)',
-        fontWeight: active ? 600 : 400,
-      }}
-      transition={{ duration: 0.3 }}
-      className="text-sm"
-    >
-      {label}
-    </motion.span>
-  </div>
-);
-
-/* ──────────────────────────────────────────────
    Solution / How-it-works Section
    ────────────────────────────────────────────── */
 const solutionSteps = [
   {
+    icon: Mail,
     title: 'Secure Monitoring',
     body: 'Our agents connect securely to your inbox, scanning only for transactional signals like flight cancellations, delivery failures, and overcharges. No sensitive data leaves your environment.',
   },
   {
+    icon: Scale,
     title: 'Legal Triage',
     body: 'We cross-reference your situation against international regulations like EU261, consumer protection directives, and carrier-specific policies to determine eligibility instantly.',
   },
   {
+    icon: Bot,
     title: 'Autonomous Filing',
     body: 'Our infrastructure drafts legally binding claims, navigates the vendor\'s bureaucracy, and follows up automatically. You approve once — we handle everything else.',
   },
 ];
 
 const SolutionSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  useMotionValueEvent(scrollYProgress, 'change', (v) => setProgress(v));
-
-  const activeStep = progress < 0.33 ? 0 : progress < 0.66 ? 1 : 2;
-  // Line fill: 0 at top node, 1 at bottom node
-  const lineFill = Math.min(1, progress * 1.1);
-
   return (
-    <section ref={containerRef} className="relative min-h-[150vh]">
+    <section className="py-24 lg:py-32">
       <div className="mx-auto max-w-5xl px-6">
-        <div className="py-20 text-center">
+        <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             How It Works
           </h2>
@@ -241,47 +174,57 @@ const SolutionSection = () => {
           </p>
         </div>
 
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          {/* Left: Sticky Pipeline */}
-          <div className="hidden lg:flex lg:justify-end">
-            <div className="sticky top-1/3">
-              <div className="relative flex flex-col gap-10">
-                {pipelineSteps.map((step, i) => (
-                  <PipelineNode key={i} {...step} active={activeStep >= i} />
-                ))}
-                {/* Connecting line behind nodes */}
-                <div className="absolute left-7 top-14 -z-10 h-[calc(100%-56px)] w-[2px] bg-[hsl(0,0%,88%)]">
-                  <motion.div
-                    className="w-full rounded-full bg-primary"
-                    style={{ height: `${lineFill * 100}%` }}
-                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                  />
-                </div>
-              </div>
-            </div>
+        {/* Vertical timeline */}
+        <div className="relative mx-auto mt-16 max-w-2xl">
+          {/* Connecting line */}
+          <div className="absolute left-7 top-0 hidden h-full w-[2px] bg-[hsl(0,0%,88%)] sm:block">
+            <motion.div
+              className="w-full rounded-full bg-primary"
+              initial={{ height: '0%' }}
+              whileInView={{ height: '100%' }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 1.2, ease: 'easeOut' }}
+            />
           </div>
 
-          {/* Right: Scrolling text */}
-          <div className="space-y-[25vh] pb-[15vh]">
+          <div className="space-y-12 sm:space-y-16">
             {solutionSteps.map((step, i) => {
-              const isActive = activeStep === i;
+              const Icon = step.icon;
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0.4 }}
-                  animate={{ opacity: isActive ? 1 : 0.35 }}
-                  transition={{ duration: 0.5 }}
-                  className="max-w-lg"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.5, delay: i * 0.15 }}
+                  className="flex gap-6"
                 >
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
-                    Step {i + 1}
-                  </p>
-                  <h3 className="mb-4 text-2xl font-bold text-foreground sm:text-3xl">
-                    {step.title}
-                  </h3>
-                  <p className="text-base leading-relaxed text-muted-foreground">
-                    {step.body}
-                  </p>
+                  {/* Node */}
+                  <motion.div
+                    whileInView={{
+                      boxShadow: '0 0 20px hsl(20, 90%, 48%), 0 0 40px hsl(20, 90%, 48%)',
+                      backgroundColor: 'hsl(20, 90%, 48%)',
+                      borderColor: 'hsl(20, 90%, 48%)',
+                    }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.5, delay: i * 0.15 + 0.2 }}
+                    className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-[hsl(0,0%,85%)] bg-[hsl(0,0%,97%)]"
+                  >
+                    <Icon className="h-6 w-6 text-primary-foreground" />
+                  </motion.div>
+
+                  {/* Text */}
+                  <div className="pt-1">
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">
+                      Step {i + 1}
+                    </p>
+                    <h3 className="mb-2 text-xl font-bold text-foreground sm:text-2xl">
+                      {step.title}
+                    </h3>
+                    <p className="text-base leading-relaxed text-muted-foreground">
+                      {step.body}
+                    </p>
+                  </div>
                 </motion.div>
               );
             })}
@@ -292,6 +235,35 @@ const SolutionSection = () => {
   );
 };
 
+/* ──────────────────────────────────────────────
+   Stats / Trust Section
+   ────────────────────────────────────────────── */
+const stats = [
+  { value: '€2.4M+', label: 'Capital Recovered' },
+  { value: '12,000+', label: 'Claims Filed' },
+  { value: '94%', label: 'Success Rate' },
+  { value: '<48h', label: 'Avg. Resolution' },
+];
+
+const StatsSection = () => (
+  <section className="border-y border-border bg-[hsl(0,0%,98%)] py-16">
+    <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-6 sm:grid-cols-4">
+      {stats.map((s, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: i * 0.1 }}
+          className="text-center"
+        >
+          <p className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">{s.value}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
+        </motion.div>
+      ))}
+    </div>
+  </section>
+);
 /* ──────────────────────────────────────────────
    Landing Page
    ────────────────────────────────────────────── */
@@ -360,6 +332,9 @@ const Landing = () => {
 
       {/* How It Works */}
       <SolutionSection />
+
+      {/* Stats */}
+      <StatsSection />
 
       {/* Pricing */}
       <section className="py-24 lg:py-32">

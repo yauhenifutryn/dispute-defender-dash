@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Mail, Plane, Hash, Calendar, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Mail, Plane, Hash, Calendar, Loader2, AlertCircle, Brain } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import StatusBadge from '@/components/StatusBadge';
 import EconomicsWidget from '@/components/EconomicsWidget';
@@ -164,7 +164,26 @@ const DisputeDetail = () => {
             )}
           </div>
 
-          
+          {/* AI Reasoning */}
+          {dispute.ai_reasons && dispute.ai_reasons.length > 0 && (
+            <>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mt-2">AI Reasoning</h3>
+              <div className="rounded-xl border border-border bg-card p-5 space-y-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <Brain className="h-4 w-4 text-primary" />
+                  <p className="text-sm font-medium text-foreground">Why this claim was flagged</p>
+                </div>
+                <ul className="space-y-2">
+                  {dispute.ai_reasons.map((reason, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                      <p className="text-sm leading-relaxed text-muted-foreground">{reason}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
 
           {economics && <EconomicsWidget economics={economics} />}
         </div>

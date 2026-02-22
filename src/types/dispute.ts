@@ -80,6 +80,7 @@ export interface Dispute {
   email_subject?: string;
   email_body?: string;
   draft_claim?: string;
+  ai_reasons?: string[];
 
   // Joined data
   messages?: MessageRow[];

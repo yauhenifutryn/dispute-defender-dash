@@ -6,6 +6,8 @@ import {
 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, Mail, Scale, Bot, Shield, Zap, Search, CheckCircle2 } from 'lucide-react';
+import HITLSection from '@/components/landing/HITLSection';
+import TechStackSection from '@/components/landing/TechStackSection';
 
 /* ──────────────────────────────────────────────
    Hero Mock-Window Animation
@@ -335,6 +337,12 @@ const Landing = () => {
 
       {/* Stats */}
       <StatsSection />
+
+      {/* HITL Workflow */}
+      <HITLSection />
+
+      {/* Tech Stack */}
+      <TechStackSection />
 
       {/* Pricing */}
       <section className="py-24 lg:py-32">

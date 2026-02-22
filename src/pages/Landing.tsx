@@ -241,10 +241,10 @@ const SolutionSection = () => {
           </p>
         </div>
 
-        <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-20">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-16">
           {/* Left: Sticky Pipeline */}
-          <div className="hidden lg:block">
-            <div className="sticky top-32">
+          <div className="hidden lg:flex lg:justify-end">
+            <div className="sticky top-1/3">
               <div className="relative flex flex-col gap-10">
                 {pipelineSteps.map((step, i) => (
                   <PipelineNode key={i} {...step} active={activeStep >= i} />

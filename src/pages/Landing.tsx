@@ -230,7 +230,7 @@ const SolutionSection = () => {
   const lineFill = Math.min(1, progress * 1.1);
 
   return (
-    <section ref={containerRef} className="relative min-h-[250vh]">
+    <section ref={containerRef} className="relative min-h-[150vh]">
       <div className="mx-auto max-w-5xl px-6">
         <div className="py-20 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -262,7 +262,7 @@ const SolutionSection = () => {
           </div>
 
           {/* Right: Scrolling text */}
-          <div className="space-y-[40vh] pb-[30vh]">
+          <div className="space-y-[25vh] pb-[15vh]">
             {solutionSteps.map((step, i) => {
               const isActive = activeStep === i;
               return (

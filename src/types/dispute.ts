@@ -75,6 +75,9 @@ export interface Dispute {
 
   // Derived / UI-only convenience (populated from cases or mock)
   estimated_value?: number;
+  recovered_amount?: number | null;
+  fee_amount?: number | null;
+  stripe_checkout_url?: string | null;
   flight_number?: string;
   booking_ref?: string;
   email_subject?: string;

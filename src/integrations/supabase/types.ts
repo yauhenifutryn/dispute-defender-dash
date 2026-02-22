@@ -151,14 +151,20 @@ export type Database = {
           email_body: string | null
           email_subject: string | null
           estimated_value: number | null
+          fee_amount: number | null
           flight_number: string | null
           form_data: Json | null
           from_email: string | null
           id: string
           incident_date: string | null
+          invoice_id: string | null
+          invoice_url: string | null
           message_id: string | null
+          recovered_amount: number | null
           source: string | null
           status: string | null
+          stripe_checkout_session_id: string | null
+          stripe_checkout_url: string | null
           thread_id: string | null
           to_email: string | null
           updated_at: string | null
@@ -176,14 +182,20 @@ export type Database = {
           email_body?: string | null
           email_subject?: string | null
           estimated_value?: number | null
+          fee_amount?: number | null
           flight_number?: string | null
           form_data?: Json | null
           from_email?: string | null
           id?: string
           incident_date?: string | null
+          invoice_id?: string | null
+          invoice_url?: string | null
           message_id?: string | null
+          recovered_amount?: number | null
           source?: string | null
           status?: string | null
+          stripe_checkout_session_id?: string | null
+          stripe_checkout_url?: string | null
           thread_id?: string | null
           to_email?: string | null
           updated_at?: string | null
@@ -201,14 +213,20 @@ export type Database = {
           email_body?: string | null
           email_subject?: string | null
           estimated_value?: number | null
+          fee_amount?: number | null
           flight_number?: string | null
           form_data?: Json | null
           from_email?: string | null
           id?: string
           incident_date?: string | null
+          invoice_id?: string | null
+          invoice_url?: string | null
           message_id?: string | null
+          recovered_amount?: number | null
           source?: string | null
           status?: string | null
+          stripe_checkout_session_id?: string | null
+          stripe_checkout_url?: string | null
           thread_id?: string | null
           to_email?: string | null
           updated_at?: string | null

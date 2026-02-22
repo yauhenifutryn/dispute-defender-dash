@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Database, Globe, ArrowRight } from 'lucide-react';
+import { Zap, Database, Globe } from 'lucide-react';
 
 const techSteps = [
   {
@@ -182,16 +182,8 @@ const TechStackSection = () => {
                     transition={{ duration: 0.4 }}
                     className="flex-1 rounded-xl border bg-card p-5 transition-colors"
                   >
-                    <div className="flex items-center justify-between">
+                    <div>
                       <h3 className="text-base font-bold text-foreground sm:text-lg">{step.title}</h3>
-                      {i < techSteps.length - 1 && (
-                        <motion.div
-                          animate={{ opacity: isActive ? 1 : 0.3, x: isActive ? [0, 4, 0] : 0 }}
-                          transition={isActive ? { duration: 0.8, repeat: Infinity } : { duration: 0.3 }}
-                        >
-                          <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                        </motion.div>
-                      )}
                     </div>
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
 

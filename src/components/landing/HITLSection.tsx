@@ -88,7 +88,7 @@ const HITLSection = () => {
 
         {/* Horizontal pipeline */}
         <div className="relative mt-16">
-          <div className="absolute left-0 right-0 top-7 hidden h-[2px] bg-border sm:block">
+          <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-[2px] bg-border sm:block">
             <motion.div
               className="h-full rounded-full bg-primary"
               animate={{ width: `${(completedStep / 4) * 100}%` }}

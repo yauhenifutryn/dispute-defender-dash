@@ -12,22 +12,22 @@ const AppSidebar = () => {
           <Zap className="h-4 w-4 text-sidebar-primary-foreground" />
         </div>
         <span className="text-sm font-bold tracking-tight text-sidebar-primary-foreground">
-          CompensAI
+          ClearClaim
         </span>
       </div>
 
       <nav className="flex-1 space-y-1 px-3 py-4">
         {[
-          { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+          { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
         ].map(({ to, label, icon: Icon }) => (
           <Link
             key={to}
             to={to}
             className={cn(
               'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
-              pathname === to
-                ? 'bg-sidebar-accent text-sidebar-primary'
-                : 'text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground'
+             pathname === to || pathname.startsWith(to + '/')
+               ? 'bg-sidebar-accent text-sidebar-primary'
+               : 'text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground'
             )}
           >
             <Icon className="h-4 w-4" />
@@ -37,7 +37,7 @@ const AppSidebar = () => {
       </nav>
 
       <div className="border-t border-sidebar-border p-4">
-        <p className="text-xs text-sidebar-foreground/50">CompensAI · Inbox-to-Claim</p>
+        <p className="text-xs text-sidebar-foreground/50">ClearClaim · Capital Recovery</p>
       </div>
     </aside>
   );

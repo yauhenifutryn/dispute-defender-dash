@@ -23,7 +23,7 @@ const Terms = () => {
             <Shield className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">ClearClaim</h1>
+            <h1 className="text-xl font-bold text-foreground">CompensAI</h1>
             <p className="text-sm text-muted-foreground">Terms &amp; Conditions</p>
           </div>
         </div>
@@ -35,7 +35,7 @@ const Terms = () => {
           </div>
           <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
             <p>
-              <strong className="text-foreground">1. Service Description.</strong> ClearClaim
+              <strong className="text-foreground">1. Service Description.</strong> CompensAI
               is an automated claims assistant that scans your inbox for actionable disputes
               (e.g., flight delays, overcharges, damaged parcels) and drafts claim letters on
               your behalf. All claims require your explicit approval before submission.

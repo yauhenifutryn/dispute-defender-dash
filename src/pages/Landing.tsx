@@ -31,7 +31,7 @@ const Landing = () => {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <Zap className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-lg font-bold tracking-tight text-foreground">ClearClaim</span>
+            <span className="text-lg font-bold tracking-tight text-foreground">CompensAI</span>
           </div>
           <Link to="/terms">
             <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
@@ -179,10 +179,10 @@ const Landing = () => {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-2">
             <Zap className="h-4 w-4 text-primary" />
-            <span className="text-sm font-bold text-foreground">ClearClaim</span>
+            <span className="text-sm font-bold text-foreground">CompensAI</span>
           </div>
           <p className="text-xs text-muted-foreground">
-            © 2026 ClearClaim AI. Built for the Hackathon.
+            © 2026 CompensAI. Built for the Hackathon.
           </p>
         </div>
       </footer>

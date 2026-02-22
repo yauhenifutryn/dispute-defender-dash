@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   motion,
-  AnimatePresence,
-} from 'framer-motion';
+  AnimatePresence } from
+'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, Mail, Scale, Bot, Shield, Zap, Search, CheckCircle2 } from 'lucide-react';
 
@@ -41,15 +41,15 @@ const HeroMockWindow = () => {
         {/* Content area */}
         <div className="relative h-48 overflow-hidden rounded-b-xl bg-[hsl(0,0%,99%)] p-6">
           <AnimatePresence mode="wait">
-            {phase === 'email' && (
-              <motion.div
-                key="email"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="space-y-3"
-              >
+            {phase === 'email' &&
+            <motion.div
+              key="email"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+              className="space-y-3">
+
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[hsl(0,0%,94%)]">
                     <Mail className="h-4 w-4 text-[hsl(0,0%,45%)]" />
@@ -67,22 +67,22 @@ const HeroMockWindow = () => {
                   </p>
                 </div>
               </motion.div>
-            )}
+            }
 
-            {phase === 'scan' && (
-              <motion.div
-                key="scan"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex h-full flex-col items-center justify-center gap-4"
-              >
+            {phase === 'scan' &&
+            <motion.div
+              key="scan"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex h-full flex-col items-center justify-center gap-4">
+
                 <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/30 border-t-primary"
-                >
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/30 border-t-primary">
+
                   <Search className="h-5 w-5 text-primary" />
                 </motion.div>
                 <div className="space-y-1 text-center">
@@ -91,75 +91,75 @@ const HeroMockWindow = () => {
                 </div>
                 {/* Scan bar */}
                 <motion.div
-                  className="h-0.5 w-full rounded-full bg-primary/20"
-                >
+                className="h-0.5 w-full rounded-full bg-primary/20">
+
                   <motion.div
-                    className="h-full rounded-full bg-primary"
-                    initial={{ width: '0%' }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: 1.6, ease: 'easeInOut' }}
-                  />
+                  className="h-full rounded-full bg-primary"
+                  initial={{ width: '0%' }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 1.6, ease: 'easeInOut' }} />
+
                 </motion.div>
               </motion.div>
-            )}
+            }
 
-            {phase === 'result' && (
-              <motion.div
-                key="result"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="flex h-full flex-col items-center justify-center gap-3"
-              >
+            {phase === 'result' &&
+            <motion.div
+              key="result"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="flex h-full flex-col items-center justify-center gap-3">
+
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}
-                >
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}>
+
                   <CheckCircle2 className="h-12 w-12 text-[hsl(152,60%,40%)]" />
                 </motion.div>
                 <div className="text-center">
                   <p className="text-sm font-semibold text-[hsl(0,0%,15%)]">Claim Eligible</p>
                   <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="mt-1 text-3xl font-extrabold text-primary"
-                  >
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-1 text-3xl font-extrabold text-primary">
+
                     €400
                   </motion.p>
                   <p className="mt-1 text-xs text-[hsl(0,0%,55%)]">EU261 — Flight delay &gt;3 hours, 1500+ km</p>
                 </div>
               </motion.div>
-            )}
+            }
           </AnimatePresence>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 /* ──────────────────────────────────────────────
    Solution / How-it-works Section
    ────────────────────────────────────────────── */
 const solutionSteps = [
-  {
-    icon: Mail,
-    title: 'Secure Monitoring',
-    body: 'Our agents connect securely to your inbox, scanning only for transactional signals like flight cancellations, delivery failures, and overcharges. No sensitive data leaves your environment.',
-  },
-  {
-    icon: Scale,
-    title: 'Legal Triage',
-    body: 'We cross-reference your situation against international regulations like EU261, consumer protection directives, and carrier-specific policies to determine eligibility instantly.',
-  },
-  {
-    icon: Bot,
-    title: 'Autonomous Filing',
-    body: 'Our infrastructure drafts legally binding claims, navigates the vendor\'s bureaucracy, and follows up automatically. You approve once — we handle everything else.',
-  },
-];
+{
+  icon: Mail,
+  title: 'Secure Monitoring',
+  body: 'Our agents connect securely to your inbox, scanning only for transactional signals like flight cancellations, delivery failures, and overcharges. No sensitive data leaves your environment.'
+},
+{
+  icon: Scale,
+  title: 'Legal Triage',
+  body: 'We cross-reference your situation against international regulations like EU261, consumer protection directives, and carrier-specific policies to determine eligibility instantly.'
+},
+{
+  icon: Bot,
+  title: 'Autonomous Filing',
+  body: 'Our infrastructure drafts legally binding claims, navigates the vendor\'s bureaucracy, and follows up automatically. You approve once — we handle everything else.'
+}];
+
 
 const SolutionSection = () => {
   return (
@@ -183,8 +183,8 @@ const SolutionSection = () => {
               initial={{ height: '0%' }}
               whileInView={{ height: '100%' }}
               viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 1.2, ease: 'easeOut' }}
-            />
+              transition={{ duration: 1.2, ease: 'easeOut' }} />
+
           </div>
 
           <div className="space-y-12 sm:space-y-16">
@@ -197,19 +197,19 @@ const SolutionSection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.5, delay: i * 0.15 }}
-                  className="flex gap-6"
-                >
+                  className="flex gap-6">
+
                   {/* Node */}
                   <motion.div
                     whileInView={{
                       boxShadow: '0 0 20px hsl(20, 90%, 48%), 0 0 40px hsl(20, 90%, 48%)',
                       backgroundColor: 'hsl(20, 90%, 48%)',
-                      borderColor: 'hsl(20, 90%, 48%)',
+                      borderColor: 'hsl(20, 90%, 48%)'
                     }}
                     viewport={{ once: true, margin: '-50px' }}
                     transition={{ duration: 0.5, delay: i * 0.15 + 0.2 }}
-                    className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-[hsl(0,0%,85%)] bg-[hsl(0,0%,97%)]"
-                  >
+                    className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-[hsl(0,0%,85%)] bg-[hsl(0,0%,97%)]">
+
                     <Icon className="h-6 w-6 text-primary-foreground" />
                   </motion.div>
 
@@ -225,45 +225,45 @@ const SolutionSection = () => {
                       {step.body}
                     </p>
                   </div>
-                </motion.div>
-              );
+                </motion.div>);
+
             })}
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 /* ──────────────────────────────────────────────
    Stats / Trust Section
    ────────────────────────────────────────────── */
 const stats = [
-  { value: '€2.4M+', label: 'Capital Recovered' },
-  { value: '12,000+', label: 'Claims Filed' },
-  { value: '94%', label: 'Success Rate' },
-  { value: '<48h', label: 'Avg. Resolution' },
-];
+{ value: '€2.4M+', label: 'Capital Recovered' },
+{ value: '12,000+', label: 'Claims Filed' },
+{ value: '94%', label: 'Success Rate' },
+{ value: '<48h', label: 'Avg. Resolution' }];
 
-const StatsSection = () => (
-  <section className="border-y border-border bg-[hsl(0,0%,98%)] py-16">
+
+const StatsSection = () =>
+<section className="border-y border-border bg-[hsl(0,0%,98%)] py-16">
     <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-6 sm:grid-cols-4">
-      {stats.map((s, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: i * 0.1 }}
-          className="text-center"
-        >
+      {stats.map((s, i) =>
+    <motion.div
+      key={i}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: i * 0.1 }}
+      className="text-center">
+
           <p className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">{s.value}</p>
           <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
         </motion.div>
-      ))}
+    )}
     </div>
-  </section>
-);
+  </section>;
+
 /* ──────────────────────────────────────────────
    Landing Page
    ────────────────────────────────────────────── */
@@ -293,8 +293,8 @@ const Landing = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-center"
-        >
+          className="text-center">
+
           <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
             Stop Leaving{' '}
             <span className="bg-gradient-to-r from-primary to-[hsl(43,96%,56%)] bg-clip-text text-transparent">
@@ -309,8 +309,8 @@ const Landing = () => {
           <Link to="/terms" className="mt-8 inline-block">
             <Button
               size="lg"
-              className="gap-2 bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90"
-            >
+              className="gap-2 bg-primary px-8 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90">
+
               Start Capital Recovery
               <ChevronRight className="h-5 w-5" />
             </Button>
@@ -321,8 +321,8 @@ const Landing = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="w-full"
-        >
+          className="w-full">
+
           <HeroMockWindow />
         </motion.div>
 
@@ -343,8 +343,8 @@ const Landing = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.6 }}
-          >
+            transition={{ duration: 0.6 }}>
+
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Zero Risk. Pure Performance.
             </h2>
@@ -382,13 +382,13 @@ const Landing = () => {
             <Zap className="h-4 w-4 text-primary" />
             <span className="text-sm font-bold text-foreground">CompensAI</span>
           </div>
-          <p className="text-xs text-muted-foreground">
-            © 2026 CompensAI. Built for the Hackathon.
+          <p className="text-xs text-muted-foreground">© 2026 CompensAI. Built for HackEurope
+
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Landing;

@@ -7,7 +7,6 @@ import AppLayout from "@/components/AppLayout";
 import TermsGate from "@/components/TermsGate";
 import Dashboard from "@/pages/Dashboard";
 import DisputeDetail from "@/pages/DisputeDetail";
-import Automation from "@/pages/Automation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,7 +22,6 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dispute/:id" element={<DisputeDetail />} />
-              <Route path="/automation" element={<Automation />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AppLayout>

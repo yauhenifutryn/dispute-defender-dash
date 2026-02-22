@@ -23,18 +23,18 @@ const AnimatedSection = ({ children, className = '' }: { children: React.ReactNo
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-[hsl(230,25%,7%)] text-[hsl(0,0%,95%)]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="fixed top-0 z-50 w-full border-b border-[hsl(230,20%,15%)] bg-[hsl(230,25%,7%)]/80 backdrop-blur-md">
+      <header className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[hsl(230,80%,60%)]">
-              <Zap className="h-4 w-4 text-white" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+              <Zap className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-lg font-bold tracking-tight">ClearClaim</span>
+            <span className="text-lg font-bold tracking-tight text-foreground">ClearClaim</span>
           </div>
           <Link to="/terms">
-            <Button size="sm" className="bg-[hsl(230,80%,55%)] text-white hover:bg-[hsl(230,80%,48%)]">
+            <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
               Get Started
             </Button>
           </Link>
@@ -51,16 +51,16 @@ const Landing = () => {
           >
             <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               Stop Leaving Money{' '}
-              <span className="bg-gradient-to-r from-[hsl(230,80%,65%)] to-[hsl(260,80%,70%)] bg-clip-text text-transparent">
+              <span className="text-primary">
                 on the Table.
               </span>
             </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-[hsl(230,10%,60%)]">
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
               Autonomous AI agents that recover unclaimed compensation for flight delays,
               damaged goods, and service failures. We fight the bureaucracy so you don't have to.
             </p>
             <Link to="/terms" className="mt-8 inline-block">
-              <Button size="lg" className="gap-2 bg-[hsl(230,80%,55%)] px-8 text-base font-semibold text-white hover:bg-[hsl(230,80%,48%)]">
+              <Button size="lg" className="gap-2 bg-primary px-8 text-base font-semibold text-primary-foreground hover:bg-primary/90">
                 Start Capital Recovery
                 <ChevronRight className="h-5 w-5" />
               </Button>
@@ -73,14 +73,14 @@ const Landing = () => {
             transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
             className="relative"
           >
-            <div className="overflow-hidden rounded-2xl border border-[hsl(230,20%,18%)] shadow-2xl shadow-[hsl(230,80%,55%)]/10">
+            <div className="overflow-hidden rounded-2xl border border-border shadow-2xl shadow-primary/10">
               <img src={heroImage} alt="From bureaucratic chaos to recovered capital" className="w-full" />
             </div>
           </motion.div>
         </div>
 
         {/* Gradient orb */}
-        <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[hsl(230,80%,55%)]/5 blur-3xl" />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
       </section>
 
       {/* Section B: Problem */}
@@ -88,19 +88,19 @@ const Landing = () => {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Corporate Portals Are Designed to{' '}
-            <span className="text-[hsl(0,70%,55%)]">Exhaust You.</span>
+            <span className="text-destructive">Exhaust You.</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[hsl(230,10%,55%)]">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             Every year, consumers forfeit billions in owed compensation. Why? Because vendor
             support loops rely on intentional friction—endless forms, confusing jargon, and
             long wait times—to protect their profit margins.
           </p>
         </div>
         {/* Maze bg */}
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.03]"
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.04]"
           style={{
-            backgroundImage: `repeating-linear-gradient(90deg, hsl(230,20%,40%) 0px, transparent 1px, transparent 40px),
-              repeating-linear-gradient(0deg, hsl(230,20%,40%) 0px, transparent 1px, transparent 40px)`
+            backgroundImage: `repeating-linear-gradient(90deg, hsl(var(--border)) 0px, transparent 1px, transparent 40px),
+              repeating-linear-gradient(0deg, hsl(var(--border)) 0px, transparent 1px, transparent 40px)`
           }}
         />
       </AnimatedSection>
@@ -134,16 +134,16 @@ const Landing = () => {
             ].map(({ icon: Icon, step, title, desc }) => (
               <div
                 key={step}
-                className="group rounded-2xl border border-[hsl(230,20%,15%)] bg-[hsl(230,25%,10%)] p-8 transition-colors hover:border-[hsl(230,80%,55%)]/30"
+                className="group rounded-2xl border border-border bg-card p-8 transition-colors hover:border-primary/30"
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[hsl(230,80%,55%)]/10">
-                  <Icon className="h-6 w-6 text-[hsl(230,80%,65%)]" />
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <Icon className="h-6 w-6 text-primary" />
                 </div>
-                <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[hsl(230,80%,65%)]">
+                <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">
                   Step {step}
                 </p>
-                <h3 className="mb-3 text-xl font-bold">{title}</h3>
-                <p className="text-sm leading-relaxed text-[hsl(230,10%,55%)]">{desc}</p>
+                <h3 className="mb-3 text-xl font-bold text-foreground">{title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
               </div>
             ))}
           </div>
@@ -156,32 +156,32 @@ const Landing = () => {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Zero Risk. Pure Performance.
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[hsl(230,10%,55%)]">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             We don't charge subscriptions or hidden fees. We operate on a strict performance
-            model: we take a <strong className="text-[hsl(0,0%,95%)]">10% success fee</strong> only
+            model: we take a <strong className="text-foreground">10% success fee</strong> only
             when capital is securely recovered back to you via Stripe. If we don't win, you don't pay.
           </p>
 
-          <div className="mx-auto mt-12 flex max-w-sm items-center justify-center gap-6 rounded-2xl border border-[hsl(230,20%,15%)] bg-[hsl(230,25%,10%)] p-8">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[hsl(260,80%,55%)]/10">
-              <Shield className="h-8 w-8 text-[hsl(260,80%,70%)]" />
+          <div className="mx-auto mt-12 flex max-w-sm items-center justify-center gap-6 rounded-2xl border border-border bg-card p-8">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+              <Shield className="h-8 w-8 text-primary" />
             </div>
             <div className="text-left">
-              <p className="text-4xl font-extrabold tracking-tight text-[hsl(230,80%,65%)]">10%</p>
-              <p className="text-sm text-[hsl(230,10%,55%)]">Success fee only</p>
+              <p className="text-4xl font-extrabold tracking-tight text-primary">10%</p>
+              <p className="text-sm text-muted-foreground">Success fee only</p>
             </div>
           </div>
         </div>
       </AnimatedSection>
 
       {/* Section E: Footer */}
-      <footer className="border-t border-[hsl(230,20%,15%)] py-10">
+      <footer className="border-t border-border py-10">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-[hsl(230,80%,65%)]" />
-            <span className="text-sm font-bold">ClearClaim</span>
+            <Zap className="h-4 w-4 text-primary" />
+            <span className="text-sm font-bold text-foreground">ClearClaim</span>
           </div>
-          <p className="text-xs text-[hsl(230,10%,45%)]">
+          <p className="text-xs text-muted-foreground">
             © 2026 ClearClaim AI. Built for the Hackathon.
           </p>
         </div>

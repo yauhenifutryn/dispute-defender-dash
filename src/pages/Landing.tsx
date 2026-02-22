@@ -239,10 +239,10 @@ const SolutionSection = () => {
    Stats / Trust Section
    ────────────────────────────────────────────── */
 const stats = [
-{ value: '€2.4M+', label: 'Capital Recovered' },
-{ value: '12,000+', label: 'Claims Filed' },
-{ value: '94%', label: 'Success Rate' },
-{ value: '<48h', label: 'Avg. Resolution' }];
+{ value: '€XX,XXX+', label: 'Capital Recovered' },
+{ value: 'X,XXX+', label: 'Claims Filed' },
+{ value: 'XX%', label: 'Success Rate' },
+{ value: '<XXh', label: 'Avg. Resolution' }];
 
 
 const StatsSection = () =>

@@ -237,34 +237,7 @@ const SolutionSection = () => {
 
 };
 
-/* ──────────────────────────────────────────────
-   Stats / Trust Section
-   ────────────────────────────────────────────── */
-const stats = [
-{ value: '€XX,XXX+', label: 'Capital Recovered' },
-{ value: 'X,XXX+', label: 'Claims Filed' },
-{ value: 'XX%', label: 'Success Rate' },
-{ value: '<XXh', label: 'Avg. Resolution' }];
-
-
-const StatsSection = () =>
-<section className="border-y border-border bg-[hsl(0,0%,98%)] py-16">
-    <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-6 sm:grid-cols-4">
-      {stats.map((s, i) =>
-    <motion.div
-      key={i}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: i * 0.1 }}
-      className="text-center">
-
-          <p className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">{s.value}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
-        </motion.div>
-    )}
-    </div>
-  </section>;
+/* Stats section removed */
 
 /* ──────────────────────────────────────────────
    Landing Page
@@ -335,8 +308,7 @@ const Landing = () => {
       {/* How It Works */}
       <SolutionSection />
 
-      {/* Stats */}
-      <StatsSection />
+      {/* HITL Workflow */}
 
       {/* HITL Workflow */}
       <HITLSection />

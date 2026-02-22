@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Bot, Database, Globe, CreditCard, ArrowRight } from 'lucide-react';
+import { Zap, Database, Globe, ArrowRight } from 'lucide-react';
 
 const techSteps = [
   {
@@ -9,15 +9,7 @@ const techSteps = [
     body: 'n8n ingests emails and orchestrates agent handoffs',
     detail: 'Secure OAuth-based email monitoring triggers automated workflows. When a dispute signal is detected, n8n orchestrates the handoff between agents, pausing execution at human checkpoints.',
     color: 'hsl(43, 96%, 56%)',
-    pulse: 'Email signal received...',
-  },
-  {
-    icon: Bot,
-    title: 'AI Agents',
-    body: 'Triage, legal drafting, and financial closing',
-    detail: 'Three specialized agents — Triage Engine, Legal Executor, and Financial Closer — each handle a distinct phase of the pipeline. Locally hosted via Ngrok for full control.',
-    color: 'hsl(20, 90%, 48%)',
-    pulse: 'Drafting legal claim...',
+    pulse: 'Workflow triggered...',
   },
   {
     icon: Database,
@@ -31,17 +23,9 @@ const techSteps = [
     icon: Globe,
     title: 'Dynamic Execution',
     body: 'Agents navigate vendor portals autonomously',
-    detail: 'Using browser automation, agents navigate carrier websites, fill compensation forms, and extract confirmation data — handling CAPTCHAs and dynamic content programmatically.',
+    detail: 'Using browser automation, agents navigate carrier websites, fill compensation forms, and extract confirmation data — handling dynamic content programmatically.',
     color: 'hsl(210, 80%, 50%)',
     pulse: 'Submitting to vendor...',
-  },
-  {
-    icon: CreditCard,
-    title: 'Monetization',
-    body: 'Stripe invoices issued on success only',
-    detail: 'When capital is recovered, the Financial Closer calculates the 10% success fee and issues a Stripe invoice automatically. Zero upfront cost, fully headless billing.',
-    color: 'hsl(250, 60%, 55%)',
-    pulse: 'Invoice generated ✓',
   },
 ];
 

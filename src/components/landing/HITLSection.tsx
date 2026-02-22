@@ -88,10 +88,13 @@ const HITLSection = () => {
 
         {/* Horizontal pipeline */}
         <div className="relative mt-16">
-          <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-[2px] bg-border sm:block">
+          {/* Grey base line spanning between icon centers */}
+          <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-[2px] bg-border sm:block" />
+          {/* Orange overlay tracking completed steps */}
+          <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-[2px] sm:block overflow-hidden">
             <motion.div
               className="h-full rounded-full bg-primary"
-              animate={{ width: `${(completedStep / 4) * 100}%` }}
+              animate={{ width: `${((completedStep - 1) / 3) * 100}%` }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             />
           </div>
@@ -111,12 +114,12 @@ const HITLSection = () => {
               const glowHighlight = {
                 borderColor: 'hsl(20, 90%, 48%)',
                 boxShadow: '0 0 24px hsl(20, 90%, 48%), 0 0 48px hsl(20, 90%, 48%)',
-                backgroundColor: 'transparent',
+                backgroundColor: 'hsl(0, 0%, 100%)',
               };
               const inactive = {
-                borderColor: 'hsl(20, 90%, 48%)',
+                borderColor: 'hsl(0, 0%, 85%)',
                 boxShadow: 'none',
-                backgroundColor: 'transparent',
+                backgroundColor: 'hsl(0, 0%, 100%)',
               };
 
               const animateTarget = isCompleted

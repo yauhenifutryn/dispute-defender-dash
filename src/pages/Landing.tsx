@@ -16,9 +16,9 @@ const HeroMockWindow = () => {
   useEffect(() => {
     const cycle = () => {
       setPhase('email');
-      const t1 = setTimeout(() => setPhase('scan'), 1800);
-      const t2 = setTimeout(() => setPhase('result'), 3600);
-      const t3 = setTimeout(cycle, 5800);
+      const t1 = setTimeout(() => setPhase('scan'), 2800);
+      const t2 = setTimeout(() => setPhase('result'), 5600);
+      const t3 = setTimeout(cycle, 8500);
       return [t1, t2, t3];
     };
     const timers = cycle();
@@ -55,13 +55,13 @@ const HeroMockWindow = () => {
                     <Mail className="h-4 w-4 text-[hsl(0,0%,45%)]" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[hsl(0,0%,15%)]">RyanAir Notification</p>
-                    <p className="text-xs text-[hsl(0,0%,55%)]">Flight FR1234 — Delay 4h 20m</p>
+                    <p className="text-sm font-semibold text-[hsl(0,0%,15%)]">HackAir Notification</p>
+                    <p className="text-xs text-[hsl(0,0%,55%)]">Flight HA1234 — Delay 4h 20m</p>
                   </div>
                 </div>
                 <div className="rounded-lg border border-[hsl(0,0%,90%)] bg-[hsl(0,0%,97%)] p-3">
                   <p className="text-xs leading-relaxed text-[hsl(0,0%,45%)]">
-                    Dear passenger, we regret to inform you that your flight FR1234 from Dublin
+                    Dear passenger, we regret to inform you that your flight HA1234 from Dublin
                     to Barcelona scheduled for 14:00 has been delayed by approximately 4 hours
                     and 20 minutes due to operational reasons...
                   </p>
@@ -127,9 +127,9 @@ const HeroMockWindow = () => {
                     transition={{ delay: 0.3 }}
                     className="mt-1 text-3xl font-extrabold text-primary"
                   >
-                    €600
+                    €400
                   </motion.p>
-                  <p className="mt-1 text-xs text-[hsl(0,0%,55%)]">EU261 — Flight delay &gt;3 hours</p>
+                  <p className="mt-1 text-xs text-[hsl(0,0%,55%)]">EU261 — Flight delay &gt;3 hours, 1500+ km</p>
                 </div>
               </motion.div>
             )}

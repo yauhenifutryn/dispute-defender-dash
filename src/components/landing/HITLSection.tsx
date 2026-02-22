@@ -47,12 +47,20 @@ const HITLSection = () => {
     return () => clearTimeout(t);
   }, [phase]);
 
-  const activeStep =
+  // Steps 1-2 always completed (orange). Step 3 = current in idle, completed after approve. Step 4 = active after filing.
+  const completedStep =
     phase === 'idle' ? 2 :
-    phase === 'filing' ? 2 :
+    phase === 'filing' ? 3 :
     phase === 'waiting' ? 3 :
     phase === 'vendor-reply' ? 3 :
     4;
+
+  const currentStep =
+    phase === 'idle' ? 3 :
+    phase === 'filing' ? 3 :
+    phase === 'waiting' ? 4 :
+    phase === 'vendor-reply' ? 4 :
+    0;
 
   return (
     <section className="py-24 lg:py-32 overflow-hidden">
@@ -94,8 +102,31 @@ const HITLSection = () => {
             {pipelineSteps.map((step, i) => {
               const Icon = step.icon;
               const stepNum = i + 1;
-              const isActive = stepNum <= activeStep;
-              const isCurrent = stepNum === activeStep;
+              const isCompleted = stepNum <= completedStep;
+              const isCurrent = stepNum === currentStep;
+              // Completed = solid orange bg. Current = glow + border but transparent bg (white icon).
+              const solidOrange = {
+                backgroundColor: 'hsl(20, 90%, 48%)',
+                borderColor: 'hsl(20, 90%, 48%)',
+                boxShadow: 'none',
+              };
+              const glowHighlight = {
+                borderColor: 'hsl(20, 90%, 48%)',
+                boxShadow: '0 0 24px hsl(20, 90%, 48%), 0 0 48px hsl(20, 90%, 48%)',
+                backgroundColor: 'transparent',
+              };
+              const inactive = {
+                borderColor: 'hsl(20, 90%, 48%)',
+                boxShadow: 'none',
+                backgroundColor: 'transparent',
+              };
+
+              const animateTarget = isCompleted
+                ? solidOrange
+                : isCurrent
+                ? glowHighlight
+                : inactive;
+
               return (
                 <motion.div
                   key={i}
@@ -106,26 +137,7 @@ const HITLSection = () => {
                   className="relative flex flex-col items-center text-center"
                 >
                   <motion.div
-                    animate={
-                      isCurrent && phase !== 'idle'
-                        ? {
-                            boxShadow: '0 0 24px hsl(20, 90%, 48%), 0 0 48px hsl(20, 90%, 48%)',
-                            backgroundColor: 'hsl(20, 90%, 48%)',
-                            borderColor: 'hsl(20, 90%, 48%)',
-                          }
-                        : isActive && phase !== 'idle'
-                        ? {
-                            borderColor: 'hsl(20, 90%, 48%)',
-                            backgroundColor: 'hsl(20, 90%, 48%)',
-                          }
-                        : step.highlight && phase === 'idle'
-                        ? {
-                            boxShadow: '0 0 24px hsl(20, 90%, 48%), 0 0 48px hsl(20, 90%, 48%)',
-                            backgroundColor: 'hsl(20, 90%, 48%)',
-                            borderColor: 'hsl(20, 90%, 48%)',
-                          }
-                        : { borderColor: 'hsl(20, 90%, 48%)' }
-                    }
+                    animate={animateTarget}
                     transition={{ duration: 0.5 }}
                     className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-border bg-card"
                   >
@@ -133,11 +145,7 @@ const HITLSection = () => {
                       <CheckCircle2 className="h-6 w-6 text-primary-foreground" />
                     ) : (
                       <Icon
-                        className={`h-6 w-6 ${
-                          (isCurrent && phase !== 'idle') || (step.highlight && phase === 'idle') || (isActive && phase !== 'idle')
-                            ? 'text-primary-foreground'
-                            : 'text-primary'
-                        }`}
+                        className={`h-6 w-6 ${isCompleted ? 'text-primary-foreground' : 'text-primary'}`}
                       />
                     )}
                   </motion.div>

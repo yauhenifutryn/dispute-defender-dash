@@ -49,6 +49,8 @@ const TermsGate = ({ children }: TermsGateProps) => {
               is an automated claims assistant that scans your inbox for actionable disputes
               (e.g., flight delays, overcharges, damaged parcels) and drafts claim letters on
               your behalf. All claims require your explicit approval before submission.
+              CompensAI provides automated assistance and does not offer legal representation
+              or formal legal advice.
             </p>
             <p>
               <strong className="text-foreground">2. User Responsibility.</strong> You are solely
@@ -63,18 +65,26 @@ const TermsGate = ({ children }: TermsGateProps) => {
               vendors involved in your disputes.
             </p>
             <p>
-              <strong className="text-foreground">4. Fees.</strong> A service fee of up to 10% of
+              <strong className="text-foreground">4. Data Protection &amp; Privacy.</strong> CompensAI
+              processes email metadata and relevant correspondence solely for dispute detection
+              and claim generation purposes. We operate in compliance with applicable data
+              protection laws, including the General Data Protection Regulation (GDPR). We do
+              not sell user data. Data is shared only with entities directly involved in the
+              dispute resolution process. Users may request data deletion at any time.
+            </p>
+            <p>
+              <strong className="text-foreground">5. Fees.</strong> A service fee of up to 10% of
               successfully recovered amounts may apply. No fee is charged for unsuccessful
               claims. Fee details are shown on each dispute before approval.
             </p>
             <p>
-              <strong className="text-foreground">5. Limitation of Liability.</strong> This service
+              <strong className="text-foreground">6. Limitation of Liability.</strong> This service
               is provided "as is" without warranty. We are not liable for missed claims,
               incorrect drafts, or any direct or indirect damages arising from use of the
               platform.
             </p>
             <p>
-              <strong className="text-foreground">6. Termination.</strong> You may stop using the
+              <strong className="text-foreground">7. Termination.</strong> You may stop using the
               service at any time. We reserve the right to suspend accounts that violate
               these terms or engage in fraudulent activity.
             </p>

@@ -219,19 +219,23 @@ class ApiClient {
     }
   }
 
-  /** POST /api/v1/disputes/:disputeId/approve — approve or reject */
-  submitDecision(disputeId: string, payload: ApprovePayload): Promise<Dispute> {
-    return this.request(`/api/v1/disputes/${disputeId}/approve`, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-  }
+  /** Approve or reject a case directly in Supabase */
+  async submitDecisionToSupabase(caseId: string, decision: 'APPROVE' | 'REJECT', note?: string): Promise<void> {
+    const newStatus = decision === 'APPROVE' ? 'waiting_vendor' : 'discarded';
 
-  /** POST /api/v1/webhooks/inbound-email — simulate vendor webhook */
-  sendWebhook(payload: WebhookPayload): Promise<{ status: string }> {
-    return this.request('/api/v1/webhooks/inbound-email', {
-      method: 'POST',
-      body: JSON.stringify(payload),
+    const { error: updateErr } = await supabase
+      .from('cases')
+      .update({ status: newStatus, updated_at: new Date().toISOString() })
+      .eq('id', caseId);
+
+    if (updateErr) throw updateErr;
+
+    // Log the event
+    await supabase.from('case_events').insert({
+      case_id: caseId,
+      event_type: decision === 'APPROVE' ? 'user_approved' : 'user_rejected',
+      actor: 'user',
+      details: { decision, note: note ?? null },
     });
   }
 }

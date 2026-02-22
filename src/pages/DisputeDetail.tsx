@@ -5,7 +5,6 @@ import StatusBadge from '@/components/StatusBadge';
 import EconomicsWidget from '@/components/EconomicsWidget';
 import AgentTimeline from '@/components/AgentTimeline';
 import HITLActionBlock from '@/components/HITLActionBlock';
-import WebhookSimulator from '@/components/WebhookSimulator';
 import DraftPayloadViewer from '@/components/DraftPayloadViewer';
 import { Dispute, DisputeEconomics, DisputeStatus } from '@/types/dispute';
 import { MOCK_DISPUTES } from '@/data/mockDisputes';
@@ -37,7 +36,6 @@ const DisputeDetail = () => {
       const data = await api.getDispute(id);
       setDispute(data);
     } catch {
-      // Fallback to mock
       const found = MOCK_DISPUTES.find(d => d.dispute_id === id || d.id === id);
       if (found) {
         setDispute(found);
@@ -57,32 +55,18 @@ const DisputeDetail = () => {
     if (!dispute) return;
     setSubmitting(true);
     try {
-      const payload = decision === 'APPROVE'
-        ? { decision: 'APPROVE' as const, channel: 'PORTAL' }
-        : { decision: 'REJECT' as const, note: note || 'User rejected draft' };
-      const updated = await api.submitDecision(dispute.id, payload);
-      setDispute(updated);
-      toast.success(decision === 'APPROVE' ? 'Claim approved and submitted!' : 'Draft rejected.');
-    } catch {
-      // Fallback: update locally
-      const newStatus = decision === 'APPROVE' ? 'WAITING_VENDOR_RESPONSE' : 'DISCARDED_BY_USER' as const;
+      await api.submitDecisionToSupabase(dispute.id, decision, note);
+      const newStatus: DisputeStatus = decision === 'APPROVE' ? 'WAITING_VENDOR_RESPONSE' : 'DISCARDED_BY_USER';
       setDispute(prev => prev ? { ...prev, status: newStatus } : prev);
       toast.success(decision === 'APPROVE' ? 'Claim approved and submitted!' : 'Draft rejected.');
+    } catch (err) {
+      console.error('Decision error:', err);
+      toast.error('Failed to submit decision. Please try again.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleWebhookResult = (result: 'accepted' | 'rejected' | 'needs_info') => {
-    const statusMap = {
-      accepted: 'RESOLVED_SUCCESS' as const,
-      rejected: 'RESOLVED_REJECTED' as const,
-      needs_info: 'AWAITING_USER_APPROVAL' as const,
-    };
-    setDispute(prev => prev ? { ...prev, status: statusMap[result] } : prev);
-  };
-
-  // Extract economics from agent_runs billing_stub
   const extractEconomics = (): DisputeEconomics | null => {
     if (!dispute?.agent_runs?.length) return null;
     for (const run of dispute.agent_runs) {
@@ -111,7 +95,7 @@ const DisputeDetail = () => {
       <div className="flex flex-col items-center justify-center gap-3 py-20">
         <AlertCircle className="h-8 w-8 text-destructive" />
         <p className="text-sm text-muted-foreground">{error || 'Dispute not found.'}</p>
-        <Button variant="outline" size="sm" onClick={() => navigate('/')}>Back</Button>
+        <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')}>Back</Button>
       </div>
     );
   }
@@ -122,7 +106,7 @@ const DisputeDetail = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+        <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div className="flex-1">
@@ -134,9 +118,9 @@ const DisputeDetail = () => {
         </div>
       </div>
 
-      {/* Split Pane */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Left: Context */}
+      {/* Two-column layout */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Left: Context + Draft */}
         <div className="space-y-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Original Context</h3>
           <div className="rounded-xl border border-border bg-card p-5 space-y-4">
@@ -172,43 +156,23 @@ const DisputeDetail = () => {
                 <p className="text-sm font-medium text-foreground">{dispute.created_at ? new Date(dispute.created_at).toLocaleDateString() : '—'}</p>
               </div>
             </div>
-            <div className="border-t border-border pt-3">
-              <p className="text-xs text-muted-foreground">Email excerpt</p>
-              <p className="mt-1 text-xs leading-relaxed text-foreground/80">{dispute.email_body ?? '—'}</p>
-            </div>
+            {dispute.email_body && (
+              <div className="border-t border-border pt-3">
+                <p className="text-xs text-muted-foreground">Email excerpt</p>
+                <p className="mt-1 text-xs leading-relaxed text-foreground/80">{dispute.email_body}</p>
+              </div>
+            )}
           </div>
 
-          {/* Messages */}
-          {dispute.messages && dispute.messages.length > 0 && (
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Messages</h3>
-              {dispute.messages.map((msg, idx) => (
-                <div key={msg.message_id ?? idx} className="rounded-lg border border-border bg-card p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={`text-xs font-medium ${msg.direction === 'outbound' ? 'text-primary' : 'text-muted-foreground'}`}>
-                      {msg.direction === 'outbound' ? '→ Sent' : '← Received'}
-                    </span>
-                    <span className="text-xs text-muted-foreground">{msg.source ?? '—'}</span>
-                  </div>
-                  <p className="text-xs font-medium text-foreground">{msg.subject ?? '—'}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{msg.body_text ?? ''}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Center: Timeline + HITL + Webhook Sim */}
-        <div className="space-y-6">
-          <AgentTimeline status={(dispute.status ?? 'SCANNED_MATCH') as DisputeStatus} />
-          <HITLActionBlock dispute={dispute} onDecision={handleDecision} submitting={submitting} />
           <DraftPayloadViewer payload={dispute.draft_payload_json ?? undefined} />
-          <WebhookSimulator dispute={dispute} onResult={handleWebhookResult} />
+
+          {economics && <EconomicsWidget economics={economics} />}
         </div>
 
-        {/* Right: Economics */}
-        <div className="space-y-4">
-          <EconomicsWidget economics={economics} />
+        {/* Right: Actions + Timeline */}
+        <div className="space-y-6">
+          <HITLActionBlock dispute={dispute} onDecision={handleDecision} submitting={submitting} />
+          <AgentTimeline status={(dispute.status ?? 'SCANNED_MATCH') as DisputeStatus} />
         </div>
       </div>
     </div>
